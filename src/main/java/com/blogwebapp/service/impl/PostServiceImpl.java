@@ -29,4 +29,10 @@ public class PostServiceImpl  implements PostService{
 		
 	}
 
+	@Override
+	public void createPost(PostDto postDto) {
+		Post post = PostMapper.mapToPost(postDto);
+		postRepository.save(post);
+	}
+
 }
