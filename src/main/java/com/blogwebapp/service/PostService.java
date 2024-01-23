@@ -3,6 +3,7 @@ package com.blogwebapp.service;
 import java.util.List;
 
 import com.blogwebapp.dto.PostDto;
+import com.blogwebapp.entity.Post;
 
 public interface PostService {
 	
@@ -17,4 +18,6 @@ public interface PostService {
 	void deletePost(Long postId);
 
 	PostDto findPostByUrl(String postUrl);
+	
+	List<PostDto> searchPosts(String query);
 }

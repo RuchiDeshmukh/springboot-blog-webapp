@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.blogwebapp.dto.PostDto;
 import com.blogwebapp.service.PostService;
@@ -79,6 +80,13 @@ public class PostController {
 		PostDto postDto = postService.findPostByUrl(postUrl);
 		model.addAttribute("post", postDto);
 		return "admin/view_post";
+	}
+	
+	@GetMapping("/admin/posts/search")
+	public String searchPost(@RequestParam(value = "query") String query, Model model) {
+		List<PostDto> posts = postService.searchPosts(query);
+		model.addAttribute("posts", posts);
+		return "admin/posts";
 	}
 
 	private static String getUrl(String postTitle) {

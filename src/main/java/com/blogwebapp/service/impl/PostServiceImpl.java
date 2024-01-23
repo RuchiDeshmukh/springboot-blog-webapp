@@ -1,6 +1,6 @@
 package com.blogwebapp.service.impl;
 
-import java.util.List;
+import java.util.List;import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
@@ -56,6 +56,14 @@ public class PostServiceImpl  implements PostService{
 	public PostDto findPostByUrl(String postUrl) {
 		Post post = postRepository.findByUrl(postUrl).get();
 		return PostMapper.mapToPostDto(post);
+	}
+
+	@Override
+	public List<PostDto> searchPosts(String query) {
+		List<Post> posts = postRepository.searchPosts(query);
+		return posts.stream()
+				    .map(PostMapper :: mapToPostDto)
+				    .collect(Collectors.toList());
 	}
 
 }
