@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.blogwebapp.dto.CommentDto;
 import com.blogwebapp.dto.PostDto;
 import com.blogwebapp.service.PostService;
 
@@ -31,7 +32,10 @@ public class BlogController {
 	@GetMapping("/post/{postUrl}")
 	public String showPost(@PathVariable("postUrl") String postUrl, Model model) {
 		PostDto postDto = postService.findPostByUrl(postUrl);
+		
+		CommentDto commentDto = new CommentDto();
 		model.addAttribute("post", postDto);
+		model.addAttribute("comment", commentDto);
 		return "blog/blog_post";
 	}
 	

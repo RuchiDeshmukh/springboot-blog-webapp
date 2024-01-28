@@ -1,7 +1,6 @@
 package com.blogwebapp.dto;
 
 import java.time.LocalDateTime;
-import java.util.Set;
 
 import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
@@ -13,19 +12,17 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class PostDto {
+public class CommentDto {
 	
 	private Long id;
-	@NotEmpty(message = "Title should not be empty")
-	private String title;
-	private String url;
-	@NotEmpty(message = "Content should not be empty")
+	@NotEmpty
+	private String name;
+	@NotEmpty(message="Email should not be empty")
+	private String email;
+	@NotEmpty(message="Message should be empty")
 	private String content;
-	@NotEmpty(message = "Post short description should not be empty")
-	private String shortDescription;
 	private LocalDateTime createdOn;
 	private LocalDateTime updatedOn;
-	private Set<CommentDto> comments;
 	
 
 }
