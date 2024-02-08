@@ -23,6 +23,13 @@ public class AuthController {
 		this.userService = userService;
 	}
 
+	@GetMapping("/login")
+	public String loginPage() {
+		
+		
+		return "login";
+	} 
+	
 	@GetMapping("/register")
 	public String showRegistrationForm(Model model) {
 		

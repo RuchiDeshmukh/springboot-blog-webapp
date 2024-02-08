@@ -7,4 +7,8 @@
 --(4,' Content goes here','2022-07-18 10:45:18.634347','In this blog post, you will learn about Access Modifiers in Java with examples','Access Modifiers in Java','2022-07-18 10:45:18.634357','access-modifiers-in-java'),
 --(5,' Content goes here','2022-07-18 10:45:18.635878','In this blog post, you will learn about Arrays in Java with examples','Arrays in Java','2022-07-18 10:45:18.635889','arrys-in-java');
 
-INSERT INTO `roles` (ID,NAME) VALUES(1,'ROLE_GUEST');
+INSERT INTO `roles` VALUES (1,'ROLE_ADMIN'),(2,'ROLE_GUEST'); 
+ 
+--INSERT INTO `users`(EMAIL,NAME,PASSWORD) VALUES ('admin@gmail.com','admin','$2a$10$k9644mshajjDvMhU8p76.u4sgOFuINZDkZ/csNgzFY99W1diZjBuC'); 
+ 
+--INSERT INTO `users_roles` VALUES (1,1);
