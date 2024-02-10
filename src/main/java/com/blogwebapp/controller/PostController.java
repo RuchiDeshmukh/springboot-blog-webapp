@@ -15,6 +15,8 @@ import com.blogwebapp.dto.CommentDto;
 import com.blogwebapp.dto.PostDto;
 import com.blogwebapp.service.CommentService;
 import com.blogwebapp.service.PostService;
+import com.blogwebapp.util.Role;
+import com.blogwebapp.util.SecurityUtils;
 
 import jakarta.validation.Valid;
 
@@ -33,7 +35,14 @@ public class PostController {
 
 	@GetMapping("/admin/posts")
 	public String posts(Model model) {
-		List<PostDto> posts = postService.findAllPosts();
+		String role = SecurityUtils.getRole();
+		List<PostDto> posts = null;
+		if(Role.ROLE_ADMIN.name().equals(role)) {
+			posts = postService.findAllPosts();
+		}else{
+			posts = postService.findPostsByUser();
+		}
+		
 		model.addAttribute("posts", posts);
 		return "admin/posts";
 	}
@@ -96,7 +105,13 @@ public class PostController {
 	
 	@GetMapping("/admin/posts/comments")
 	public String postComments(Model model) {
-		List<CommentDto> comments = commentService.findAllComments();
+		String role = SecurityUtils.getRole();
+		List<CommentDto> comments = null;
+		if(Role.ROLE_ADMIN.name().equals(role)) {
+			comments = commentService.findAllComments();
+		}else {
+			 comments = commentService.findCommentsByPost();
+		}
 		model.addAttribute("comments", comments);
 		return "admin/comments";
 	}

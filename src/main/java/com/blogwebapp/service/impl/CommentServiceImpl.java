@@ -8,21 +8,26 @@ import org.springframework.stereotype.Service;
 import com.blogwebapp.dto.CommentDto;
 import com.blogwebapp.entity.Comment;
 import com.blogwebapp.entity.Post;
+import com.blogwebapp.entity.User;
 import com.blogwebapp.mapper.CommentMapper;
 import com.blogwebapp.repository.CommentRepository;
 import com.blogwebapp.repository.PostRepository;
+import com.blogwebapp.repository.UserRepository;
 import com.blogwebapp.service.CommentService;
+import com.blogwebapp.util.SecurityUtils;
 
 @Service
 public class CommentServiceImpl implements CommentService{
 	
 	private CommentRepository commentRepository;
 	private PostRepository postRepository;
+	private UserRepository userRepository;
 	
-	public CommentServiceImpl(CommentRepository commentRepository, PostRepository postRepository) {
+	public CommentServiceImpl(CommentRepository commentRepository, PostRepository postRepository, UserRepository userRepository) {
 		super();
 		this.commentRepository = commentRepository;
 		this.postRepository = postRepository;
+		this.userRepository = userRepository;
 	}
 
 
@@ -52,6 +57,19 @@ public class CommentServiceImpl implements CommentService{
 	@Override
 	public void deleteComment(Long commentId) {
 		commentRepository.deleteById(commentId);
+	}
+
+
+
+	@Override
+	public List<CommentDto> findCommentsByPost() {
+		String email = SecurityUtils.getCurrentUser().getUsername();
+		User createdBy = userRepository.findByEmail(email);
+		Long userId = createdBy.getId();
+		List<Comment> comments = commentRepository.findCommentsByPost(userId);
+		return comments.stream()
+					   .map(comment-> CommentMapper.mapToCommentDto(comment))
+					   .collect(Collectors.toList());
 	}
 
 }
