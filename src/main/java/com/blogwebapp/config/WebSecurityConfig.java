@@ -10,6 +10,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.Http403ForbiddenEntryPoint;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
@@ -45,11 +46,15 @@ public class WebSecurityConfig {
 								.requestMatchers(new AntPathRequestMatcher("/post/**")).permitAll()
 								.requestMatchers(new AntPathRequestMatcher("/h2-console/**")).permitAll()
 								.requestMatchers(new AntPathRequestMatcher("/admin/**")).hasAnyRole("ADMIN", "GUEST")
-								.requestMatchers(new AntPathRequestMatcher("/")).permitAll())
-				.formLogin(form -> form.loginPage("/login").defaultSuccessUrl("/admin/posts")
-						.loginProcessingUrl("/login").permitAll())
-				.logout(logout -> logout.logoutRequestMatcher(new AntPathRequestMatcher("/logout")).permitAll());
-
+								.requestMatchers(new AntPathRequestMatcher("/")).permitAll()
+								)
+				
+				.formLogin(form -> form.loginPage("/login")
+								.defaultSuccessUrl("/admin/posts")
+								.loginProcessingUrl("/login").permitAll())
+				.logout(logout -> logout.logoutRequestMatcher(new AntPathRequestMatcher("/logout")).permitAll())
+				.exceptionHandling()
+		        .defaultAuthenticationEntryPointFor(new Http403ForbiddenEntryPoint(), new AntPathRequestMatcher("/**"));
 		return http.build();
 
 	}
